@@ -20,7 +20,7 @@ Or run the Python verifier directly on each skill folder:
 uv tool install git+https://github.com/NVIDIA/skillspector.git
 
 # 2. Scan the Clean Skill (Expected: PASS / Exit Code 0)
-python3 verify_skill.py ./skills/clean_skill
+python3 verify_skill.py ./skills/clean_weather_skill
 
 # 3. Scan the Toxic Skill (Expected: FAIL / Exit Code 1)
 python3 verify_skill.py ./skills/toxic_skill
@@ -37,7 +37,7 @@ This repository contains the minimal local Kata. For the full production archite
 ```text
 ├── content/season3/day14.ts     # Advent of Agents Day 14 submission file
 ├── skills/
-│   ├── clean_skill/SKILL.md     # Compliant weather forecast skill (PASS)
+│   ├── clean_weather_skill/SKILL.md     # Compliant weather forecast skill (PASS)
 │   └── toxic_skill/SKILL.md     # Malicious skill with prompt injection & env harvesting (FAIL)
 ├── demo-simple.sh               # Local runner that scans both clean and toxic skills
 └── verify_skill.py              # Minimal SkillSpector verification script

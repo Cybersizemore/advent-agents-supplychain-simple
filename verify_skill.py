@@ -38,5 +38,5 @@ def verify_skill(skill_dir: str) -> bool:
     return True
 
 if __name__ == "__main__":
-    target = sys.argv[1] if len(sys.argv) > 1 else "./skills/clean_skill"
+    target = sys.argv[1] if len(sys.argv) > 1 else "./skills/clean_weather_skill"
     sys.exit(0 if verify_skill(target) else 1)

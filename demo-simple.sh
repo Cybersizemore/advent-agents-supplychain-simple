@@ -27,7 +27,7 @@ echo -e "${BLUE}${BOLD}🛡️  ADVENT OF AGENTS - DAY 14: LOCAL SKILLSPECTOR KA
 echo -e "${BLUE}${BOLD}======================================================================${NC}"
 
 echo -e "\n${GREEN}${BOLD}>>> 1/2: Scanning Clean Weather Skill (Expected: PASS)${NC}"
-python3 verify_skill.py ./skills/clean_skill
+python3 verify_skill.py ./skills/clean_weather_skill
 
 echo -e "\n${YELLOW}${BOLD}----------------------------------------------------------------------${NC}"
 echo -e "${RED}${BOLD}>>> 2/2: Scanning Toxic Weather Skill (Expected: FAIL / BLOCKED)${NC}"
