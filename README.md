@@ -21,7 +21,7 @@ python3 verify_skill.py ./skills/toxic_skill
 Push both test branches (`test/clean-skill` and `test/toxic-skill`) to see the GitHub Actions gate pass the clean skill and block the toxic skill:
 
 ```bash
-./demo.sh
+./demo-simple.sh
 ```
 
 ## 📂 Structure
@@ -32,6 +32,6 @@ Push both test branches (`test/clean-skill` and `test/toxic-skill`) to see the G
 ├── skills/
 │   ├── clean_skill/SKILL.md           # Compliant weather forecast skill (PASS)
 │   └── toxic_skill/SKILL.md           # Malicious skill with prompt injection & env harvesting (FAIL)
-├── demo.sh                            # Triggers both PASS and FAIL runs on GitHub Actions
+├── demo-simple.sh                            # Triggers both PASS and FAIL runs on GitHub Actions
 └── verify_skill.py                    # 26-line SkillSpector CI/CD gate script
 ```
