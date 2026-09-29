@@ -1,9 +1,19 @@
-# Supply-Chain Safety: Tool & Skill Verification (Simple Kata)
+# Supply-Chain Safety: Tool & Skill Verification (30-Second Local Kata)
 
 > **Google's Advent of Agents — Season 3 (Day 14)**  
->Minimal, copy-pasteable CI/CD build gate using **NVIDIA SkillSpector** to scan agent skills in under 60 seconds.
+> Minimal, copy-pasteable local verification script using **NVIDIA SkillSpector** to audit agent skills in under 30 seconds.
 
-## ⚡ Quickstart
+## ⚡ Quickstart (< 30 Seconds)
+
+Clone and run the local verification demo:
+
+```bash
+git clone https://github.com/Cybersizemore/advent-agents-supplychain-simple.git
+cd advent-agents-supplychain-simple
+./demo-simple.sh
+```
+
+Or run the Python verifier directly on each skill folder:
 
 ```bash
 # 1. Install NVIDIA SkillSpector
@@ -16,22 +26,19 @@ python3 verify_skill.py ./skills/clean_skill
 python3 verify_skill.py ./skills/toxic_skill
 ```
 
-## 🚀 Trigger GitHub Actions CI/CD Demo
+## 🚀 Want the Full Enterprise CI/CD + Google Cloud Agent Registry Pipeline?
 
-Push both test branches (`test/clean-skill` and `test/toxic-skill`) to see the GitHub Actions gate pass the clean skill and block the toxic skill:
+This repository contains the minimal local Kata. For the full production architecture—including **SAT Lockfile** domain enforcement (`sat.lock`), **ASBOM** generation (`asbom.json`), **GitHub Actions CI/CD** pull request gates, and automated publication to **Google Cloud Agent Registry** via Workload Identity Federation—see the full companion repository:
 
-```bash
-./demo-simple.sh
-```
+👉 **[Cybersizemore/sec-agent-advent-supplychain-sec](https://github.com/Cybersizemore/sec-agent-advent-supplychain-sec)**
 
 ## 📂 Structure
 
 ```text
-├── .github/workflows/skill-gate.yml   # Minimal GitHub Actions verification gate
-├── content/season3/day14.ts           # Advent of Agents Day 14 submission file
+├── content/season3/day14.ts     # Advent of Agents Day 14 submission file
 ├── skills/
-│   ├── clean_skill/SKILL.md           # Compliant weather forecast skill (PASS)
-│   └── toxic_skill/SKILL.md           # Malicious skill with prompt injection & env harvesting (FAIL)
-├── demo-simple.sh                            # Triggers both PASS and FAIL runs on GitHub Actions
-└── verify_skill.py                    # 26-line SkillSpector CI/CD gate script
+│   ├── clean_skill/SKILL.md     # Compliant weather forecast skill (PASS)
+│   └── toxic_skill/SKILL.md     # Malicious skill with prompt injection & env harvesting (FAIL)
+├── demo-simple.sh               # Local runner that scans both clean and toxic skills
+└── verify_skill.py              # Minimal SkillSpector verification script
 ```

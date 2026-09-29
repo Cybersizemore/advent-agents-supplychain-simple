@@ -1,41 +1,43 @@
 #!/usr/bin/env bash
 #
-# Simple GitHub Actions Demo Trigger for Advent of Agents Day 14
-# Pushes test/clean-skill (PASS) and test/toxic-skill (FAIL) to trigger CI/CD runs.
+# Advent of Agents - Day 14: Local 30-Second Kata Demo
+# Runs NVIDIA SkillSpector locally against a clean skill (PASS) and a toxic skill (FAIL).
 #
 
 set -e
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+BOLD='\033[1m'
+NC='\033[0m'
+
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_DIR"
 
-echo "======================================================================"
-echo "🛡️  ADVENT OF AGENTS - DAY 14: SIMPLE SKILLSPECTOR CI/CD GATE"
-echo "======================================================================"
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v skillspector >/dev/null 2>&1; then
+    echo -e "${YELLOW}[*] Installing NVIDIA SkillSpector via uv...${NC}"
+    uv tool install git+https://github.com/NVIDIA/skillspector.git
+fi
 
-git checkout main 2>/dev/null || git checkout -b main
+echo -e "${BLUE}${BOLD}======================================================================${NC}"
+echo -e "${BLUE}${BOLD}🛡️  ADVENT OF AGENTS - DAY 14: LOCAL SKILLSPECTOR KATA (< 30s)${NC}"
+echo -e "${BLUE}${BOLD}======================================================================${NC}"
 
-# 1. Push Good (Clean) Skill Branch -> Expected: PASS (Green)
-echo -e "\n🚀 1/2: Pushing Clean Skill branch (test/clean-skill)..."
-git checkout -B test/clean-skill main
-date -u "+%Y-%m-%dT%H:%M:%SZ" > .clean-trigger
-git add .clean-trigger
-git commit -m "feat: verify clean weather skill [$(date -u +%H:%M:%S)]"
-git push -u origin test/clean-skill --force
-echo "✔ Triggered GitHub Actions for 'test/clean-skill' (Expected: PASS)"
+echo -e "\n${GREEN}${BOLD}>>> 1/2: Scanning Clean Weather Skill (Expected: PASS)${NC}"
+python3 verify_skill.py ./skills/clean_skill
 
-# 2. Push Bad (Toxic) Skill Branch -> Expected: FAIL (Red)
-echo -e "\n🚀 2/2: Pushing Toxic Skill branch (test/toxic-skill)..."
-git checkout -B test/toxic-skill main
-date -u "+%Y-%m-%dT%H:%M:%SZ" > .toxic-trigger
-git add .toxic-trigger
-git commit -m "test: simulate toxic skill breach [$(date -u +%H:%M:%S)]"
-git push -u origin test/toxic-skill --force
-echo "✔ Triggered GitHub Actions for 'test/toxic-skill' (Expected: FAIL)"
+echo -e "\n${YELLOW}${BOLD}----------------------------------------------------------------------${NC}"
+echo -e "${RED}${BOLD}>>> 2/2: Scanning Toxic Weather Skill (Expected: FAIL / BLOCKED)${NC}"
+set +e
+python3 verify_skill.py ./skills/toxic_skill
+TOXIC_EXIT=$?
+set -e
 
-git checkout main
-
-echo -e "\n======================================================================"
-echo "✔ Both GitHub Actions runs triggered!"
-echo "👉 Watch live: https://github.com/Cybersizemore/advent-agents-supplychain-simple/actions"
-echo "======================================================================"
+echo -e "\n${BLUE}${BOLD}======================================================================${NC}"
+echo -e "${GREEN}${BOLD}✔ Local Kata Complete! (Clean = Exit 0, Toxic = Exit $TOXIC_EXIT)${NC}"
+echo -e "👉 For the full GitHub Actions CI/CD + GCP Agent Registry pipeline:"
+echo -e "   https://github.com/Cybersizemore/sec-agent-advent-supplychain-sec"
+echo -e "${BLUE}${BOLD}======================================================================${NC}"
